@@ -5,26 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Itinera: plan day-by-day trips, track budgets, and pack checklists." />
     <title>Itinera: Travel Planner</title>
-    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
-      <h1 class="logo">Itinera</h1>
-      <button class="btn btn-primary" type="button">New trip</button>
-    </header>
-
-    <main class="container">
-      <section class="trips" aria-labelledby="trips-heading">
-        <h2 id="trips-heading">My trips</h2>
-
-        <ul class="trip-list">
-          <!-- Placeholder card; trips will be rendered here later -->
-          <li class="trip-card">
-            <h3>Example trip</h3>
-            <p>Destination · Dates</p>
-          </li>
-        </ul>
-      </section>
-    </main>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
