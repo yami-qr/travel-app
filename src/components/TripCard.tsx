@@ -1,4 +1,6 @@
 import type { Trip } from "../types/trip";
+import { totalSpent } from "../utils/budget";
+import BudgetBar from "./BudgetBar";
 
 interface TripCardProps {
   trip: Trip;
@@ -22,6 +24,7 @@ export default function TripCard({ trip }: TripCardProps) {
       <p>
         {activityCount} {activityCount === 1 ? "activity" : "activities"}
       </p>
+      <BudgetBar spent={totalSpent(trip)} budget={trip.budget} />
     </li>
   );
 }

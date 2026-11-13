@@ -58,4 +58,15 @@ describe("TripCard", () => {
     renderCard(makeTrip(0));
     expect(screen.getByText("0 activities")).toBeTruthy();
   });
+
+  it("shows the budget spent for the trip", () => {
+    // Fixture: 3 activities at 10 each against a budget of 1800.
+    renderCard(makeTrip(3));
+    expect(screen.getByText("30 of 1800 spent")).toBeTruthy();
+  });
+
+  it("warns when the trip is over budget", () => {
+    renderCard({ ...makeTrip(3), budget: 20 });
+    expect(screen.getByText("Over budget by 10")).toBeTruthy();
+  });
 });
