@@ -1,7 +1,9 @@
+import { useState } from "react";
+import NewTripForm from "./components/NewTripForm";
 import TripCard from "./components/TripCard";
 import type { Trip } from "./types/trip";
 
-// Temporary sample data until trips can be created and saved.
+// Temporary sample data until trips can be saved between visits.
 const sampleTrips: Trip[] = [
   {
     id: "trip-1",
@@ -34,24 +36,45 @@ const sampleTrips: Trip[] = [
 ];
 
 export default function App() {
+  const [trips, setTrips] = useState<Trip[]>(sampleTrips);
+  const [showForm, setShowForm] = useState(false);
+
+  function handleCreateTrip(trip: Trip) {
+    setTrips((prev) => [trip, ...prev]);
+    setShowForm(false);
+  }
+
   return (
     <>
       <header className="site-header">
         <h1 className="logo">Itinera</h1>
-        <button className="btn btn-primary" type="button">
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={() => setShowForm(true)}
+          hidden={showForm}
+        >
           New trip
         </button>
       </header>
 
       <main className="container">
+        {showForm && (
+          <NewTripForm onCreate={handleCreateTrip} onCancel={() => setShowForm(false)} />
+        )}
+
         <section className="trips" aria-labelledby="trips-heading">
           <h2 id="trips-heading">My trips</h2>
 
-          <ul className="trip-list">
-            {sampleTrips.map((trip) => (
-              <TripCard key={trip.id} trip={trip} />
-            ))}
-          </ul>
+          {trips.length === 0 ? (
+            <p className="empty-state">No trips yet. Create one to get started.</p>
+          ) : (
+            <ul className="trip-list">
+              {trips.map((trip) => (
+                <TripCard key={trip.id} trip={trip} />
+              ))}
+            </ul>
+          )}
         </section>
       </main>
     </>
