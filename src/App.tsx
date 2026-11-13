@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NewTripForm from "./components/NewTripForm";
 import TripCard from "./components/TripCard";
+import { loadTrips, saveTrips } from "./services/storage";
 import type { Trip } from "./types/trip";
 
-// Temporary sample data until trips can be saved between visits.
+// Default trips, shown on the first visit before anything has been saved.
 const sampleTrips: Trip[] = [
   {
     id: "trip-1",
@@ -36,8 +37,12 @@ const sampleTrips: Trip[] = [
 ];
 
 export default function App() {
-  const [trips, setTrips] = useState<Trip[]>(sampleTrips);
+  const [trips, setTrips] = useState<Trip[]>(() => loadTrips() ?? sampleTrips);
   const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    saveTrips(trips);
+  }, [trips]);
 
   function handleCreateTrip(trip: Trip) {
     setTrips((prev) => [trip, ...prev]);
