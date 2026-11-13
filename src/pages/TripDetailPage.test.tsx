@@ -61,7 +61,7 @@ describe("TripDetailPage", () => {
 
   it("shows a validation error and adds nothing when the activity title is blank", () => {
     renderPage();
-    const section = screen.getAllByRole("region")[0];
+    const section = screen.getByRole("region", { name: /12 Mar/i });
     const form = within(section).getByRole("button", { name: "Add activity" }).closest("form")!;
     fireEvent.change(within(form).getByLabelText("Cost"), { target: { value: "5" } });
     fireEvent.click(within(form).getByRole("button", { name: "Add activity" }));
@@ -86,7 +86,9 @@ describe("TripDetailPage", () => {
     expect(screen.getByRole("button", { name: "Move First up" }).hasAttribute("disabled")).toBe(true);
 
     fireEvent.click(screen.getByRole("button", { name: "Move First down" }));
-    const items = screen.getAllByRole("listitem").map((li) => li.textContent ?? "");
+    const items = Array.from(document.querySelectorAll(".activity-item")).map(
+      (el) => el.textContent ?? "",
+    );
     expect(items[0]).toContain("Second");
     expect(items[1]).toContain("First");
   });

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import AddActivityForm from "../components/AddActivityForm";
 import BudgetBar from "../components/BudgetBar";
+import CategoryBreakdown from "../components/CategoryBreakdown";
 import PackingList from "../components/PackingList";
 import type { Trip } from "../types/trip";
-import { totalSpent } from "../utils/budget";
+import { spendingByCategory, totalSpent } from "../utils/budget";
 import {
   addActivity,
   addPackingItem,
@@ -44,6 +45,7 @@ export default function TripDetailPage({ trip, onUpdate }: TripDetailPageProps) 
           {trip.destination} · {trip.startDate} to {trip.endDate}
         </p>
         <BudgetBar spent={totalSpent(trip)} budget={trip.budget} />
+        <CategoryBreakdown totals={spendingByCategory(trip)} />
       </header>
 
       {trip.days.length === 0 && <p className="empty-state">This trip has no days yet.</p>}
