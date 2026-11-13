@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import TripCard from "./TripCard";
 import type { Trip } from "../types/trip";
 
@@ -29,11 +30,13 @@ function makeTrip(activityCount: number): Trip {
 }
 
 function renderCard(trip: Trip) {
-  // TripCard renders an <li>, so wrap it in a <ul> to keep the markup valid.
+  // TripCard renders an <li> and a router link, so wrap it in a <ul> and a router.
   return render(
-    <ul>
-      <TripCard trip={trip} />
-    </ul>,
+    <MemoryRouter>
+      <ul>
+        <TripCard trip={trip} />
+      </ul>
+    </MemoryRouter>,
   );
 }
 

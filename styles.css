@@ -217,6 +217,144 @@ h3 {
   color: var(--color-muted);
 }
 
+/* ---------- Trip detail ---------- */
+.logo {
+  text-decoration: none;
+}
+
+.muted {
+  color: var(--color-muted);
+  margin: 0.25rem 0 0;
+}
+
+.trip-detail {
+  display: grid;
+  gap: calc(var(--space) * 1.25);
+}
+
+.trip-detail-header h1 {
+  font-size: 1.75rem;
+}
+
+.day {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space);
+  display: grid;
+  gap: var(--space);
+}
+
+.day h2 {
+  font-size: 1.1rem;
+}
+
+.activity-list,
+.packing-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.activity-list {
+  padding-left: 0;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.activity-info {
+  display: grid;
+}
+
+.activity-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.btn-small {
+  padding: 0.25rem 0.55rem;
+  font-size: 0.85rem;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.activity-form {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  align-items: end;
+}
+
+.activity-form .btn {
+  justify-self: start;
+}
+
+.activity-form select,
+.packing-form input {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.packing {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space);
+}
+
+.packing h2 {
+  font-size: 1.1rem;
+}
+
+.packing-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.packed {
+  text-decoration: line-through;
+  color: var(--color-muted);
+}
+
+.packing-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: var(--space);
+}
+
+.packing-form input {
+  flex: 1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 /* ---------- Dark mode ---------- */
 @media (prefers-color-scheme: dark) {
   :root {

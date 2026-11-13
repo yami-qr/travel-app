@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Trip } from "../types/trip";
 import { totalSpent } from "../utils/budget";
 import BudgetBar from "./BudgetBar";
@@ -18,7 +19,9 @@ export default function TripCard({ trip }: TripCardProps) {
 
   return (
     <li className="trip-card">
-      <h3>{trip.name}</h3>
+      <h3>
+        <Link to={`/trips/${trip.id}`}>{trip.name}</Link>
+      </h3>
       <p>{trip.destination}</p>
       <p>{formatDateRange(trip.startDate, trip.endDate)}</p>
       <p>
