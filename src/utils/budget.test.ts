@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  budgetPercent,
   isOverBudget,
   remainingBudget,
   spendingByCategory,
@@ -90,5 +91,23 @@ describe("spendingByCategory", () => {
     const byCategory = spendingByCategory(trip);
     const sum = Object.values(byCategory).reduce((a, b) => a + b, 0);
     expect(sum).toBe(totalSpent(trip));
+  });
+});
+
+describe("budgetPercent", () => {
+  it("returns the share of the budget that is spent", () => {
+    expect(budgetPercent(25, 100)).toBe(25);
+  });
+
+  it("caps at 100 when over budget", () => {
+    expect(budgetPercent(250, 100)).toBe(100);
+  });
+
+  it("returns 0 when nothing is spent", () => {
+    expect(budgetPercent(0, 100)).toBe(0);
+  });
+
+  it("returns 0 instead of dividing by zero when the budget is zero", () => {
+    expect(budgetPercent(50, 0)).toBe(0);
   });
 });

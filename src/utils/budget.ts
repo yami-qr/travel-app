@@ -17,6 +17,15 @@ export function isOverBudget(trip: Trip): boolean {
   return totalSpent(trip) > trip.budget;
 }
 
+/**
+ * Percentage of the budget that has been spent, capped at 100 so a progress
+ * bar never overflows. Returns 0 when the budget is zero or less.
+ */
+export function budgetPercent(spent: number, budget: number): number {
+  if (budget <= 0) return 0;
+  return Math.min((spent / budget) * 100, 100);
+}
+
 /** Spending per category. Every category is present, even when it is zero. */
 export function spendingByCategory(trip: Trip): Record<ActivityCategory, number> {
   const totals: Record<ActivityCategory, number> = {
