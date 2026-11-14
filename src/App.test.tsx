@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import { TRIPS_STORAGE_KEY } from "./services/storage";
@@ -12,14 +12,18 @@ function renderApp(path = "/") {
   );
 }
 
+/** The "My trips" section of the home page. Other sections may repeat trip names. */
+function tripsSection() {
+  return within(screen.getByRole("region", { name: /My trips/ }));
+}
+
 beforeEach(() => {
   window.localStorage.clear();
 });
 
 afterEach(cleanup);
 
-function createTripThroughForm(name: string) {
-  fireEvent.click(screen.getByRole("button", { name: "New trip" }));
+function fillTripForm(name: string) {
   fireEvent.change(screen.getByLabelText("Trip name"), { target: { value: name } });
   fireEvent.change(screen.getByLabelText("Destination"), { target: { value: "Rome, Italy" } });
   fireEvent.change(screen.getByLabelText("Start date"), { target: { value: "2027-05-01" } });
@@ -28,27 +32,39 @@ function createTripThroughForm(name: string) {
   fireEvent.click(screen.getByRole("button", { name: "Create trip" }));
 }
 
+function createTripThroughForm(name: string) {
+  fireEvent.click(screen.getByRole("button", { name: "New trip" }));
+  fillTripForm(name);
+}
+
 describe("App", () => {
   it("lists the sample trips on load", () => {
     renderApp();
-    expect(screen.getByText("Lisbon weekend")).toBeTruthy();
-    expect(screen.getByText("Kyoto spring")).toBeTruthy();
+    expect(tripsSection().getByText("Lisbon weekend")).toBeTruthy();
+    expect(tripsSection().getByText("Kyoto spring")).toBeTruthy();
   });
 
-  it("opens the new trip form from the header button", () => {
+  it("opens the new trip form in a dialog from the header button", () => {
     renderApp();
     fireEvent.click(screen.getByRole("button", { name: "New trip" }));
-    expect(screen.getByRole("heading", { name: "Plan a new trip" })).toBeTruthy();
+    expect(screen.getByRole("dialog", { name: "Plan a new trip" })).toBeTruthy();
   });
 
-  it("adds a created trip to the top of the list and closes the form", () => {
+  it("opens the new trip's page and closes the form after creating it", () => {
     renderApp();
     createTripThroughForm("Rome break");
 
-    expect(screen.getByText("Rome break")).toBeTruthy();
-    expect(screen.queryByRole("heading", { name: "Plan a new trip" })).toBeNull();
+    expect(screen.getByRole("heading", { level: 1, name: "Rome break" })).toBeTruthy();
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
 
-    const items = screen.getAllByRole("listitem");
+  it("puts a created trip at the top of the trip list", () => {
+    renderApp();
+    createTripThroughForm("Rome break");
+    fireEvent.click(screen.getByRole("link", { name: "← All trips" }));
+
+    const items = tripsSection().getAllByRole("listitem");
+    expect(items).toHaveLength(3);
     expect(items[0].textContent).toContain("Rome break");
   });
 
@@ -57,8 +73,23 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "New trip" }));
     fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
 
-    expect(screen.queryByRole("heading", { name: "Plan a new trip" })).toBeNull();
-    expect(screen.getAllByRole("listitem")).toHaveLength(2);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(tripsSection().getAllByRole("listitem")).toHaveLength(2);
+  });
+
+  it("closes the form when Escape is pressed", () => {
+    renderApp();
+    fireEvent.click(screen.getByRole("button", { name: "New trip" }));
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("can create a trip while viewing another trip", () => {
+    renderApp("/trips/trip-1");
+    createTripThroughForm("Rome break");
+
+    expect(screen.getByRole("heading", { level: 1, name: "Rome break" })).toBeTruthy();
   });
 
   it("keeps a created trip after the app is remounted", () => {
@@ -67,7 +98,7 @@ describe("App", () => {
     first.unmount();
 
     renderApp();
-    expect(screen.getByText("Rome break")).toBeTruthy();
+    expect(tripsSection().getByText("Rome break")).toBeTruthy();
   });
 
   it("shows only the saved trips on later visits, not the sample trips", () => {
@@ -80,14 +111,14 @@ describe("App", () => {
 
   it("opens a trip's detail page from its card", () => {
     renderApp();
-    fireEvent.click(screen.getByRole("link", { name: "Lisbon weekend" }));
+    fireEvent.click(tripsSection().getByRole("link", { name: "Lisbon weekend" }));
 
     expect(screen.getByRole("heading", { level: 1, name: "Lisbon weekend" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "← All trips" })).toBeTruthy();
   });
 
-  it("shows a not-found message for an unknown trip id", () => {
+  it("shows a not-found page for an unknown trip id", () => {
     renderApp("/trips/does-not-exist");
-    expect(screen.getByText(/Trip not found/)).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Trip not found" })).toBeTruthy();
   });
 });

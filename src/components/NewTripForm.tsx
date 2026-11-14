@@ -10,7 +10,12 @@ import {
 interface NewTripFormProps {
   onCreate: (trip: Trip) => void;
   onCancel: () => void;
+  /** Pre-fills the destination, e.g. when the form is opened from a destination card. */
+  initialDestination?: string;
 }
+
+/** id of the form heading, so a surrounding dialog can use it as its label. */
+export const NEW_TRIP_TITLE_ID = "new-trip-title";
 
 const emptyForm: TripFormInput = {
   name: "",
@@ -20,8 +25,15 @@ const emptyForm: TripFormInput = {
   budget: "",
 };
 
-export default function NewTripForm({ onCreate, onCancel }: NewTripFormProps) {
-  const [values, setValues] = useState<TripFormInput>(emptyForm);
+export default function NewTripForm({
+  onCreate,
+  onCancel,
+  initialDestination = "",
+}: NewTripFormProps) {
+  const [values, setValues] = useState<TripFormInput>({
+    ...emptyForm,
+    destination: initialDestination,
+  });
   const [errors, setErrors] = useState<TripFormErrors>({});
 
   function handleChange(field: keyof TripFormInput, value: string) {
@@ -40,7 +52,10 @@ export default function NewTripForm({ onCreate, onCancel }: NewTripFormProps) {
 
   return (
     <form className="trip-form" onSubmit={handleSubmit} noValidate>
-      <h2>Plan a new trip</h2>
+      <h2 id={NEW_TRIP_TITLE_ID}>Plan a new trip</h2>
+      <p className="trip-form-intro">
+        Give it a name, dates and a budget. You can add activities next.
+      </p>
 
       <div className="field">
         <label htmlFor="trip-name">Trip name</label>
