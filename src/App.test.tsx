@@ -127,6 +127,14 @@ describe("App", () => {
     expect((dialog.getByLabelText("Destination") as HTMLInputElement).value).toBe("Rome, Italy");
   });
 
+  it("opens the form with a destination picked from the destination cards", () => {
+    renderApp();
+    fireEvent.click(screen.getByRole("button", { name: "Plan a trip to Kyoto, Japan" }));
+
+    const dialog = within(screen.getByRole("dialog", { name: "Plan a new trip" }));
+    expect((dialog.getByLabelText("Destination") as HTMLInputElement).value).toBe("Kyoto, Japan");
+  });
+
   it("shows a not-found page for an unknown trip id", () => {
     renderApp("/trips/does-not-exist");
     expect(screen.getByRole("heading", { name: "Trip not found" })).toBeTruthy();

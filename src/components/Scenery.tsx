@@ -46,7 +46,7 @@ export default function Scenery({ variant, palette, className }: SceneryProps) {
 
       {variant === "peaks" && (
         <>
-          <circle cx="150" cy="38" r="15" fill={palette.sun} />
+          <circle cx="128" cy="36" r="15" fill={palette.sun} />
           <path
             d="M0 96 30 58 52 82 86 40 118 86 142 60 172 90 200 66V150H0Z"
             fill={palette.far}
@@ -59,11 +59,11 @@ export default function Scenery({ variant, palette, className }: SceneryProps) {
 
       {variant === "coast" && (
         <>
-          <circle cx="140" cy="62" r="20" fill={palette.sun} />
+          <circle cx="124" cy="62" r="20" fill={palette.sun} />
           <path d="M0 92Q35 66 72 84T140 78T200 86V150H0Z" fill={palette.far} />
           <rect y="98" width="200" height="52" fill={palette.mid} />
           <path
-            d="M118 108h44M126 117h30M132 126h18"
+            d="M102 108h44M110 117h30M116 126h18"
             stroke={palette.sun}
             strokeWidth="3"
             strokeLinecap="round"
@@ -75,7 +75,7 @@ export default function Scenery({ variant, palette, className }: SceneryProps) {
 
       {variant === "dunes" && (
         <>
-          <circle cx="52" cy="40" r="17" fill={palette.sun} />
+          <circle cx="68" cy="40" r="17" fill={palette.sun} />
           <path d="M0 100Q50 58 100 92T200 82V150H0Z" fill={palette.far} />
           <path d="M0 118Q60 86 120 112T200 104V150H0Z" fill={palette.mid} />
           <path d="M0 136Q70 110 140 132T200 126V150H0Z" fill={palette.near} />

@@ -387,3 +387,187 @@
     flex-direction: column;
   }
 }
+
+/* ---------- Section heading block ---------- */
+.section-head {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 2.25rem;
+}
+
+/* ---------- Destinations ---------- */
+.destinations-section {
+  padding: 5rem 0 5.5rem;
+}
+
+.country-row {
+  display: flex;
+  gap: 1.1rem;
+  margin: 0 0 2.5rem;
+  padding: 0.6rem 0.4rem 1rem;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.country-button {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+  width: 5.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.country-art {
+  width: 4.5rem;
+  height: 4.5rem;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3px var(--surface),
+    0 0 0 5px var(--line);
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.country-art svg {
+  width: 100%;
+  height: 100%;
+}
+
+.country-button:hover .country-art,
+.country-button:focus-visible .country-art {
+  box-shadow:
+    0 0 0 3px var(--surface),
+    0 0 0 5px var(--green-500);
+  transform: translateY(-3px);
+}
+
+.destinations-subhead {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.destination-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.destination-card > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s ease;
+}
+
+/* Darken the bottom of the scene, so the white label stays readable. */
+.destination-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(7, 46, 51, 0.82));
+}
+
+.destination-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.destination-card:hover > svg {
+  transform: scale(1.07);
+}
+
+.destination-card-text {
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.8rem;
+  z-index: 1;
+  display: grid;
+  line-height: 1.25;
+}
+
+.destination-card-text strong {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.destination-card-text span {
+  font-size: 0.78rem;
+  opacity: 0.9;
+}
+
+.destination-card-go {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.destination-card:hover .destination-card-go,
+.destination-card:focus-visible .destination-card-go {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .destinations-section {
+    padding: 3.5rem 0;
+  }
+
+  .destination-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .destination-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
