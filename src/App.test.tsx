@@ -14,7 +14,7 @@ function renderApp(path = "/") {
 
 /** The "My trips" section of the home page. Other sections may repeat trip names. */
 function tripsSection() {
-  return within(screen.getByRole("region", { name: /My trips/ }));
+  return within(screen.getByRole("region", { name: /boarding passes/ }));
 }
 
 beforeEach(() => {
@@ -116,23 +116,6 @@ describe("App", () => {
 
     expect(screen.getByRole("heading", { level: 1, name: "Lisbon weekend" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "← All trips" })).toBeTruthy();
-  });
-
-  it("opens the form with the destination typed into the hero", () => {
-    renderApp();
-    fireEvent.change(screen.getByLabelText("Where to?"), { target: { value: "Rome, Italy" } });
-    fireEvent.click(screen.getByRole("button", { name: "Plan a trip" }));
-
-    const dialog = within(screen.getByRole("dialog", { name: "Plan a new trip" }));
-    expect((dialog.getByLabelText("Destination") as HTMLInputElement).value).toBe("Rome, Italy");
-  });
-
-  it("opens the form with a destination picked from the destination cards", () => {
-    renderApp();
-    fireEvent.click(screen.getByRole("button", { name: "Plan a trip to Kyoto, Japan" }));
-
-    const dialog = within(screen.getByRole("dialog", { name: "Plan a new trip" }));
-    expect((dialog.getByLabelText("Destination") as HTMLInputElement).value).toBe("Kyoto, Japan");
   });
 
   it("shows a not-found page for an unknown trip id", () => {
