@@ -1,198 +1,205 @@
-/* ---------- My trips section ---------- */
-.trips-section {
-  padding: 5.5rem 0;
-}
-
-.trips-top {
+/* ---------- Boarding-pass trip cards ---------- */
+.pass-list {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 3rem;
-  align-items: center;
-  margin-bottom: 3rem;
-}
-
-.trips-intro {
-  display: grid;
-  gap: 0.9rem;
-}
-
-.trips-empty {
-  display: grid;
-  gap: 1rem;
-  justify-items: center;
-  padding: 3rem 1.5rem;
-  border: 2px dashed var(--line);
-  border-radius: var(--radius-lg);
-  text-align: center;
-}
-
-/* ---------- Stat tiles ---------- */
-.stat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
-  margin: 0;
-}
-
-.stat-tile {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 0.2rem;
-  padding: 1.15rem 1.3rem;
-  border-radius: var(--radius);
-}
-
-.stat-tile dt {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.stat-tile dd {
-  margin: 0;
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-
-.stat-green {
-  background: var(--green-100);
-}
-
-.stat-green dd {
-  color: var(--teal-800);
-}
-
-.stat-amber {
-  background: var(--amber-100);
-}
-
-.stat-amber dd {
-  color: #9a5a06;
-}
-
-.stat-lavender {
-  background: var(--lavender-100);
-}
-
-.stat-lavender dd {
-  color: var(--purple-700);
-}
-
-.stat-pink {
-  background: var(--pink-100);
-}
-
-.stat-pink dd {
-  color: #b01e52;
-}
-
-/* ---------- Trip cards ---------- */
-.trip-list {
-  list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1.25rem;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  list-style: none;
 }
 
-.trip-card {
+.pass {
+  --notch: 0.85rem;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 8.5rem;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 5px 5px 0 var(--ocean);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-.trip-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+.pass:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--ocean);
 }
 
-.trip-card:has(a:focus-visible) {
-  outline: 3px solid var(--purple-700);
-  outline-offset: 2px;
+.pass:has(a:focus-visible) {
+  outline: 3px solid var(--ocean);
+  outline-offset: 4px;
 }
 
-.trip-card-cover {
-  position: relative;
-  aspect-ratio: 16 / 10;
-}
-
-.trip-card-cover svg {
-  width: 100%;
-  height: 100%;
-}
-
-.trip-card-days {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  padding: 0.2rem 0.65rem;
-  border-radius: var(--pill);
-  background: rgba(255, 255, 255, 0.92);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.trip-card-body {
+.pass-main {
   display: grid;
-  gap: 0.3rem;
-  padding: 1rem 1.1rem 1.2rem;
+  gap: 0.75rem;
+  padding: 1.1rem 1.2rem 1.2rem;
 }
 
-.trip-card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
+.pass-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.trip-card h3 a {
+.pass-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pass-days {
+  padding: 0.1rem 0.6rem;
+  border-radius: var(--pill);
+  background: var(--sun-soft);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.pass-route {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pass-code {
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.pass-code.is-to {
+  color: var(--coral-strong);
+}
+
+.pass-line {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  color: var(--ocean);
+}
+
+.pass-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 2px dashed var(--line);
+}
+
+.pass-line svg {
+  position: relative;
+  padding: 0 0.3rem;
+  background: var(--card);
+  transform: rotate(45deg);
+  box-sizing: content-box;
+}
+
+.pass h3 {
+  font-size: 1.25rem;
+}
+
+.pass h3 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* Stretch the title link over the whole card, so the card is one big target. */
-.trip-card h3 a::after {
+/* Make the whole pass clickable through the title link. */
+.pass h3 a::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
 }
 
-.trip-card h3 a:focus-visible {
+.pass h3 a:focus-visible {
   outline: none;
 }
 
-.trip-card-place {
+.pass-details {
   display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.9rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  margin: 0;
+}
+
+.pass-details dd {
+  white-space: nowrap;
+}
+
+.pass-details dt {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 
-.trip-card-meta {
-  font-size: 0.85rem;
-  color: var(--muted);
+.pass-details dd {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 500;
 }
 
-.trip-card .budget {
-  margin-top: 0.6rem;
+/* The tear-off stub, with half-circle notches cut into the card edge. */
+.pass-stub {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 0.6rem;
+  padding: 1rem;
+  border-left: 2px dashed var(--line);
+  background: var(--sun-soft);
+  border-radius: 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0;
 }
 
-@media (max-width: 820px) {
-  .trips-section {
-    padding: 3.5rem 0;
-  }
+.pass-stub::before,
+.pass-stub::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--notch) / -2 - 1px);
+  width: var(--notch);
+  height: var(--notch);
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+}
 
-  .trips-top {
+.pass-stub::before {
+  top: calc(var(--notch) / -2 - 1.5px);
+  clip-path: inset(50% 0 0 0);
+}
+
+.pass-stub::after {
+  bottom: calc(var(--notch) / -2 - 1.5px);
+  clip-path: inset(0 0 50% 0);
+}
+
+.pass-stub .budget-track {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 420px) {
+  .pass {
     grid-template-columns: 1fr;
-    gap: 2rem;
   }
+
+  .pass-stub {
+    border-left: 0;
+    border-top: 2px dashed var(--line);
+    border-radius: 0 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px);
+  }
+
+  .pass-stub::before,
+  .pass-stub::after {
+    display: none;
+  }
+
 }

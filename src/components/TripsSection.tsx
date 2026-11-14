@@ -1,40 +1,49 @@
 import type { Trip } from "../types/trip";
+import { tripStats } from "../utils/stats";
 import TripCard from "./TripCard";
-import TripStats from "./TripStats";
 
 interface TripsSectionProps {
   trips: Trip[];
   onPlanTrip: () => void;
 }
 
+function plural(count: number, singular: string, pluralForm = `${singular}s`): string {
+  return `${count} ${count === 1 ? singular : pluralForm}`;
+}
+
 export default function TripsSection({ trips, onPlanTrip }: TripsSectionProps) {
+  const stats = tripStats(trips);
+
   return (
     <section className="trips-section" id="trips" aria-labelledby="trips-heading">
       <div className="container">
-        <div className="trips-top">
-          <div className="trips-intro">
-            <p className="eyebrow">Your travels</p>
+        <div className="section-head-row">
+          <div className="section-head">
+            <p className="eyebrow">My trips</p>
             <h2 id="trips-heading" className="section-title">
-              My trips. <span className="accent">All in one place.</span>
+              Your <em>boarding passes</em>
             </h2>
-            <p className="section-lede">
-              Every trip you plan is saved here. Open one to add activities, check the budget and
-              tick off your packing list.
-            </p>
+            {trips.length > 0 && (
+              <p className="trips-summary">
+                {plural(stats.trips, "trip")} · {plural(stats.days, "day")} ·{" "}
+                {plural(stats.activities, "activity", "activities")} planned
+              </p>
+            )}
           </div>
-
-          <TripStats trips={trips} />
+          <button className="btn" type="button" onClick={onPlanTrip}>
+            Plan a new trip
+          </button>
         </div>
 
         {trips.length === 0 ? (
-          <div className="trips-empty">
-            <p className="empty-state">No trips yet. Create one to get started.</p>
-            <button className="btn btn-primary" type="button" onClick={onPlanTrip}>
+          <div className="notice">
+            <span>No trips yet. Create one to get started.</span>
+            <button className="btn btn-small" type="button" onClick={onPlanTrip}>
               Plan your first trip
             </button>
           </div>
         ) : (
-          <ul className="trip-list">
+          <ul className="pass-list">
             {trips.map((trip) => (
               <TripCard key={trip.id} trip={trip} />
             ))}
