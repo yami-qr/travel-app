@@ -33,6 +33,8 @@ const categoryIcons: Record<ActivityCategory, IconName> = {
 export default function TripDetailPage({ trip, onUpdate }: TripDetailPageProps) {
   const scene = sceneForDestination(trip.destination);
   const dayCount = trip.days.length;
+  // "Lisbon, Portugal" becomes "Lisbon", for the link to search its sights.
+  const city = trip.destination.split(",")[0].trim() || trip.destination;
 
   function handleAddActivity(date: string, input: ActivityFormInput) {
     onUpdate(addActivity(trip, date, input));
@@ -63,6 +65,10 @@ export default function TripDetailPage({ trip, onUpdate }: TripDetailPageProps) 
                 </span>
               </li>
             </ul>
+            <Link className="trip-hero-explore" to={`/explore?q=${encodeURIComponent(city)}`}>
+              <Icon name="pin" size={16} />
+              Find sights in {city}
+            </Link>
           </div>
 
           <div className="trip-hero-art">
