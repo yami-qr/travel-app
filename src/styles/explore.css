@@ -294,6 +294,12 @@
   padding: 2.5rem 0 4rem;
 }
 
+/* Let sections shrink below their content width, so the weather row can scroll sideways on phones. */
+.destination-body > *,
+.panel > * {
+  min-width: 0;
+}
+
 .overview {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
@@ -363,6 +369,8 @@
 }
 
 .weather-row {
+  /* Keeps the hidden screen-reader text inside the scrolling row, so it can't widen the page. */
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, minmax(4.5rem, 1fr));
   gap: 0.6rem;
