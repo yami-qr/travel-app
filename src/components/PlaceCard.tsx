@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { sceneForDestination } from "../data/destinations";
 import type { Place } from "../services/api/places";
-import { flagEmoji, formatPopulation } from "../utils/flags";
+import { formatPopulation } from "../utils/stats";
 import FavouriteButton from "./FavouriteButton";
 import Scenery from "./Scenery";
 
@@ -18,9 +18,11 @@ export default function PlaceCard({ place }: PlaceCardProps) {
     <li className="place-card">
       <span className="place-picture">
         <Scenery variant={scene.scene} palette={scene.palette} />
-        <span className="place-flag" aria-hidden="true">
-          {flagEmoji(place.countryCode)}
-        </span>
+        {place.countryCode && (
+          <span className="place-code" aria-hidden="true">
+            {place.countryCode}
+          </span>
+        )}
       </span>
       <div className="place-body">
         <h3>

@@ -190,12 +190,17 @@
   height: 100%;
 }
 
-.place-flag {
+.place-code {
   position: absolute;
   left: 0.3rem;
-  bottom: 0.2rem;
-  font-size: 1.2rem;
-  line-height: 1;
+  bottom: 0.3rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .place-body {

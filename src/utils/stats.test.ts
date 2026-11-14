@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatNumber, tripStats } from "./stats";
+import { formatNumber, formatPopulation, tripStats } from "./stats";
 import type { Trip } from "../types/trip";
 
 function makeTrip(id: string, budget: number, costsPerDay: number[][]): Trip {
@@ -48,5 +48,20 @@ describe("formatNumber", () => {
 
   it("rounds to a whole number", () => {
     expect(formatNumber(12.6)).toBe("13");
+  });
+});
+
+describe("formatPopulation", () => {
+  it("adds thousands separators", () => {
+    expect(formatPopulation(517802)).toBe("517,802");
+  });
+
+  it("shortens millions", () => {
+    expect(formatPopulation(5638830)).toBe("5.6M");
+  });
+
+  it("returns an empty string when unknown", () => {
+    expect(formatPopulation(undefined)).toBe("");
+    expect(formatPopulation(0)).toBe("");
   });
 });

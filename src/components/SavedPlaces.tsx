@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useFavourites } from "../context/FavouritesContext";
 import { sceneForDestination } from "../data/destinations";
-import { flagEmoji } from "../utils/flags";
 import FavouriteButton from "./FavouriteButton";
 import Scenery from "./Scenery";
 
@@ -48,7 +47,6 @@ export default function SavedPlaces({ onPlanTrip }: SavedPlacesProps) {
                       <Link to={`/destinations/${place.id}`}>{place.name}</Link>
                     </h3>
                     <p className="muted">
-                      <span aria-hidden="true">{flagEmoji(place.countryCode)} </span>
                       {place.region ? `${place.region}, ` : ""}
                       {place.country}
                     </p>

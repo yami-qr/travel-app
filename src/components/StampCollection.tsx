@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { destinations } from "../data/destinations";
-import { flagEmoji } from "../utils/flags";
 import FavouriteButton from "./FavouriteButton";
 import Scenery from "./Scenery";
 
@@ -37,10 +36,7 @@ export default function StampCollection() {
                 </span>
                 <span className="stamp-caption">
                   <strong>{place.name}</strong>
-                  <span>
-                    <span aria-hidden="true">{flagEmoji(place.countryCode)} </span>
-                    {place.country}
-                  </span>
+                  <span>{place.country}</span>
                 </span>
               </Link>
               <FavouriteButton

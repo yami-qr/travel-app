@@ -6,7 +6,7 @@ import { useApi } from "../hooks/useApi";
 import { getPlace, placeLabel, type Place } from "../services/api/places";
 import { getDestinationSummary } from "../services/api/wikipedia";
 import type { Trip } from "../types/trip";
-import { flagEmoji, formatPopulation } from "../utils/flags";
+import { formatPopulation } from "../utils/stats";
 
 interface DestinationPageProps {
   trips: Trip[];
@@ -139,7 +139,6 @@ export default function DestinationPage({ trips, onPlanTrip, onAddToTrip }: Dest
           <div className="destination-title-row">
             <div>
               <p className="eyebrow">
-                <span aria-hidden="true">{flagEmoji(p.countryCode)}</span>
                 {[p.region, p.country].filter(Boolean).join(", ")}
               </p>
               <h1 className="destination-title">{p.name}</h1>

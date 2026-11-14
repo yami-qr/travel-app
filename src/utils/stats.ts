@@ -26,6 +26,13 @@ export function tripStats(trips: Trip[]): TripStats {
   );
 }
 
+/** Formats a population as "517,802", or "5.6M" when large. Empty when unknown. */
+export function formatPopulation(population: number | undefined): string {
+  if (!population) return "";
+  if (population >= 1_000_000) return `${(population / 1_000_000).toFixed(1)}M`;
+  return population.toLocaleString("en-GB");
+}
+
 /** Whole numbers with thousands separators: 1800 becomes "1,800". */
 export function formatNumber(value: number): string {
   return Math.round(value).toLocaleString("en-GB");
