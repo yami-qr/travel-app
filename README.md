@@ -1,33 +1,47 @@
 # Travel Planner
 
-A trip planner for building day-by-day itineraries, tracking budgets, and keeping a packing checklist.
+A responsive travel planning web app for discovering destinations and building personalised, multi-day itineraries. Built with React and TypeScript.
 
 **Live demo:** https://itinera-olive.vercel.app
 
 ## Features
 
-- **Quick start:** type a destination in the hero, or pick one of the suggested countries and places, and the new-trip form opens with it filled in.
-- **Trips:** create a trip with a destination, dates, and a budget. Trips are saved in the browser.
-- **Itinerary:** each day lists its activities, with a time, cost, and category. Activities can be reordered or removed.
-- **Budget:** a progress bar shows the amount spent against the budget, with a warning when you go over. A breakdown shows spending by category.
-- **Packing list:** add items and tick them off.
-- **Summary tiles:** totals for trips, days, activities, and spending across every trip.
-- **Validation:** forms explain what needs fixing before they save.
+- **Discover destinations:** search any city or town. Each destination page brings together a description and photo, a 7-day forecast, and the sights nearby, all from live APIs.
+- **Search and filtering:** filter search results by type (cities, capitals) and country, and sort them by relevance, population or name. Filter sights by category or by name.
+- **Favourites:** save destinations with the heart button. Saved places appear in your wish list and are kept between visits.
+- **Multi-day itineraries:** create a trip and get one day per date. Add sights straight from a destination page to any day, or add your own activities with a time, cost and category. Reorder or remove them.
+- **Budget and packing:** track spending against a budget, broken down by category, and tick off a packing list.
+
+## Data sources
+
+All three APIs are free and need no key, so the app runs entirely in the browser.
+
+| Data | API |
+| --- | --- |
+| Place search and lookup | [Open-Meteo Geocoding](https://open-meteo.com/en/docs/geocoding-api) |
+| 7-day weather forecast | [Open-Meteo Forecast](https://open-meteo.com/en/docs) |
+| Description and photo | [Wikipedia REST page summary](https://en.wikipedia.org/api/rest_v1/) |
+| Nearby sights | [Wikipedia geosearch](https://www.mediawiki.org/wiki/API:Geosearch) |
+
+## How the API layer works
+
+- **One client for every request** (`src/services/api/http.ts`). It caches successful responses in memory with a time limit per endpoint, shares one request between components that ask for the same URL at the same time, times out slow requests, and turns network failures and HTTP errors into messages that are safe to show.
+- **Loading, error and retry states** come from a small `useApi` hook. When the input changes, it cancels the old request and ignores any late answer, so results never arrive out of order.
+- **Search waits for typing to pause** (debounced), so there is no request per keystroke. The query is kept in the URL, so results can be shared and survive a refresh.
+- **Sections fail independently.** If the weather service is down, the description and sights still load, and only the weather shows a "Try again" button.
+- **Wikipedia results are cleaned up.** Nearby pages include stations, courts, schools and historical events, so each one is put into a sight category from its description, and anything that is not a sight is dropped.
 
 ## Design
 
-- The home page has a hero with a live phone preview of your latest trip, a destinations section, a feature overview, your trips, and a tech stack section.
-- All artwork is drawn in SVG by the `Scenery` component, so the app ships no image files.
-- The new-trip form opens in a dialog that traps focus, closes on Escape, and returns focus to the button that opened it.
-- The layout adapts from phone to desktop widths, and animations are turned off for people who prefer reduced motion.
+The look is a travel journal: warm paper, postcards with postmarks, destinations as perforated postage stamps, and trips as boarding passes. All illustrations are drawn in SVG by the `Scenery` component, so the app ships no image files of its own. The layout adapts from phone to desktop, forms and dialogs work with a keyboard, and animations turn off for people who prefer reduced motion.
 
 ## Tech stack
 
-- React 18 with TypeScript, built with Vite
-- React Router for pages
-- Vitest and React Testing Library for tests
-- `localStorage` for saving data, with a small service that handles blocked or corrupt storage
-- Plain CSS with custom properties for the colour and spacing tokens
+- React 18 and TypeScript, built with Vite
+- React Router for client-side routing
+- Vitest and React Testing Library, with API calls mocked in tests
+- `localStorage` for trips and favourites, through services that cope with blocked or corrupt storage
+- Plain CSS with custom properties for colour and spacing
 
 ## Getting started
 
@@ -53,21 +67,17 @@ Then open the address shown in the terminal, usually http://localhost:5173.
 
 ```
 src/
-  components/   Page sections, trip cards, forms, modal, icons, and scenery artwork
-  data/         Destinations, sample trips, and site links
-  pages/        Home page and trip detail page
-  services/     Saving and loading trips
-  styles/       Stylesheets: tokens and base, site chrome, home, trips, detail
-  types/        Trip, Day, Activity, and PackingItem types
-  utils/        Budget, itinerary, date, and statistics logic (pure functions, unit-tested)
+  components/   Reusable UI: cards, forms, modal, weather strip, sights, scenery artwork
+  context/      Favourites shared across pages
+  data/         Curated destinations and sample trips
+  hooks/        useApi (loading, error, retry) and useDebouncedValue
+  pages/        Home, Explore, destination and trip pages
+  services/     API clients, plus saving trips and favourites
+  styles/       Design tokens and stylesheets per area
+  types/        Trip, Day, Activity and PackingItem types
+  utils/        Budget, itinerary, dates, filtering and statistics (pure, unit-tested)
 ```
-
-The budget and itinerary logic lives in plain functions in `src/utils`, separate from the UI, so it is easy to test.
 
 ## Deployment
 
-The app is deployed on Vercel. `vercel.json` sends every path to `index.html`, so links to a trip page work when opened directly.
-
-## Status
-
-Core features are complete. Ideas for next steps: a map of each day's stops, live weather for the destination, currency conversion, and syncing trips to a server.
+The app is deployed on Vercel. `vercel.json` sends every path to `index.html`, so links to a destination or trip page work when opened directly.
