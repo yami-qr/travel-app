@@ -85,6 +85,14 @@ describe("places", () => {
     expect(calledUrl().searchParams.get("id")).toBe("2267057");
   });
 
+  it("reports an unknown id as not found", async () => {
+    fetchMock.mockResolvedValueOnce(respond({ reason: "Location ID not found.", error: true }, 400));
+
+    const error = await getPlace(999999999).catch((e: unknown) => e);
+
+    expect(error).toMatchObject({ status: 404, message: "We couldn't find that." });
+  });
+
   it("labels a place with its country", () => {
     expect(placeLabel({ name: "Lisbon", country: "Portugal" })).toBe("Lisbon, Portugal");
     expect(placeLabel({ name: "Atlantis", country: "" })).toBe("Atlantis");

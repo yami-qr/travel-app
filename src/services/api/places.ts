@@ -1,4 +1,4 @@
-import { buildUrl, fetchJson } from "./http";
+import { ApiError, buildUrl, fetchJson } from "./http";
 
 /** A real place found through the Open-Meteo geocoding API. */
 export interface Place {
@@ -65,8 +65,16 @@ export async function searchPlaces(query: string, signal?: AbortSignal): Promise
 /** Looks up one place by its GeoNames id. */
 export async function getPlace(id: number, signal?: AbortSignal): Promise<Place> {
   const url = buildUrl(GET_URL, { id, language: "en", format: "json" });
-  const data = await fetchJson<GeocodingResult>(url, { signal, ttl: 60 * 60 * 1000 });
-  return toPlace(data);
+  try {
+    const data = await fetchJson<GeocodingResult>(url, { signal, ttl: 60 * 60 * 1000 });
+    return toPlace(data);
+  } catch (error) {
+    // Open-Meteo answers an unknown id with 400 "Location ID not found", so report it as not found.
+    if (error instanceof ApiError && error.status === 400) {
+      throw new ApiError("We couldn't find that.", 404);
+    }
+    throw error;
+  }
 }
 
 /** "Lisbon, Portugal", or "Springfield, Illinois, United States" when a region helps. */
