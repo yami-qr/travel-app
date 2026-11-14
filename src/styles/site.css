@@ -1,0 +1,172 @@
+/* ---------- Announcement bar ---------- */
+.announce {
+  background: var(--teal-900);
+  color: #d5efe8;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 0.5rem var(--gutter);
+}
+
+.announce a {
+  color: var(--green-400);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 4.25rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.logo-dot {
+  color: var(--green-500);
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.75rem;
+  margin-right: auto;
+}
+
+.site-nav a {
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: var(--green-600);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
+}
+
+@media (max-width: 760px) {
+  .site-nav,
+  .header-code {
+    display: none;
+  }
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--teal-950);
+  color: #b9d6d1;
+  padding: 3rem 0 2.5rem;
+  font-size: 0.9rem;
+}
+
+.site-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.site-footer .logo {
+  color: #fff;
+}
+
+.site-footer-about {
+  max-width: 24rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.site-footer nav a {
+  color: #e3f4f0;
+  text-decoration: none;
+}
+
+.site-footer nav a:hover {
+  color: var(--green-400);
+  text-decoration: underline;
+}
+
+/* ---------- Modal ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  overflow-y: auto;
+  background: rgba(7, 46, 51, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: min(540px, 100%);
+  padding: 1.75rem;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: modal-in 0.2s ease;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+.trip-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.trip-form h2 {
+  font-size: 1.6rem;
+}
+
+.trip-form-intro {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-top: -0.5rem;
+}
+
+/* ---------- Not found ---------- */
+.not-found {
+  padding: 5rem 0;
+  text-align: center;
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
