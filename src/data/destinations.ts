@@ -2,6 +2,11 @@ import type { ScenePalette, SceneVariant } from "../components/Scenery";
 
 export interface Destination {
   id: string;
+  /** GeoNames id, used to open the live destination page. */
+  placeId: number;
+  countryCode: string;
+  latitude: number;
+  longitude: number;
   /** City or area, e.g. "Lisbon". */
   name: string;
   country: string;
@@ -13,6 +18,10 @@ export interface Destination {
 export const destinations: Destination[] = [
   {
     id: "lisbon",
+    placeId: 2267057,
+    countryCode: "PT",
+    latitude: 38.72509,
+    longitude: -9.1498,
     name: "Lisbon",
     country: "Portugal",
     scene: "coast",
@@ -27,6 +36,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "kyoto",
+    placeId: 1857910,
+    countryCode: "JP",
+    latitude: 35.02107,
+    longitude: 135.75385,
     name: "Kyoto",
     country: "Japan",
     scene: "peaks",
@@ -41,6 +54,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "ubud",
+    placeId: 1622846,
+    countryCode: "ID",
+    latitude: -8.5069,
+    longitude: 115.2625,
     name: "Ubud",
     country: "Indonesia",
     scene: "dunes",
@@ -55,6 +72,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "santorini",
+    placeId: 252919,
+    countryCode: "GR",
+    latitude: 36.40712,
+    longitude: 25.45652,
     name: "Santorini",
     country: "Greece",
     scene: "coast",
@@ -69,6 +90,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "reykjavik",
+    placeId: 3413829,
+    countryCode: "IS",
+    latitude: 64.13548,
+    longitude: -21.89541,
     name: "Reykjavik",
     country: "Iceland",
     scene: "peaks",
@@ -83,6 +108,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "marrakech",
+    placeId: 2542997,
+    countryCode: "MA",
+    latitude: 31.63416,
+    longitude: -7.99994,
     name: "Marrakech",
     country: "Morocco",
     scene: "dunes",
@@ -97,6 +126,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "banff",
+    placeId: 5892532,
+    countryCode: "CA",
+    latitude: 51.1762,
+    longitude: -115.5698,
     name: "Banff",
     country: "Canada",
     scene: "peaks",
@@ -111,6 +144,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "ha-long-bay",
+    placeId: 1580410,
+    countryCode: "VN",
+    latitude: 20.95111,
+    longitude: 107.08,
     name: "Ha Long Bay",
     country: "Vietnam",
     scene: "islands",
@@ -125,6 +162,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "sydney",
+    placeId: 2147714,
+    countryCode: "AU",
+    latitude: -33.86785,
+    longitude: 151.20732,
     name: "Sydney",
     country: "Australia",
     scene: "coast",
@@ -139,6 +180,10 @@ export const destinations: Destination[] = [
   },
   {
     id: "cusco",
+    placeId: 3941584,
+    countryCode: "PE",
+    latitude: -13.52264,
+    longitude: -71.96734,
     name: "Cusco",
     country: "Peru",
     scene: "peaks",
