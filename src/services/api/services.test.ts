@@ -193,7 +193,29 @@ describe("attractions", () => {
 
   it("falls back to the title when there is no description", () => {
     expect(classifyAttraction("Estaus Palace")).toBe("history");
-    expect(classifyAttraction("Somewhere Else")).toBe("other");
+    expect(classifyAttraction("Teatro Aberto")).toBe("culture");
+  });
+
+  it("skips anything that matches no sight category", () => {
+    expect(classifyAttraction("Lisbon", "Capital and largest city of Portugal")).toBeNull();
+    expect(classifyAttraction("Euronext Lisbon", "Stock exchange in Lisbon, Portugal")).toBeNull();
+    expect(classifyAttraction("Somewhere Else")).toBeNull();
+  });
+
+  it("skips organisations even when their names contain sight words", () => {
+    expect(classifyAttraction("Institute for Nature Conservation and Forests")).toBeNull();
+    expect(classifyAttraction("Constitutional Court (Portugal)", "Supreme Court in Portugal")).toBeNull();
+  });
+
+  it("skips places that no longer exist", () => {
+    expect(classifyAttraction("Teatro Avenida", "Defunct theatre in Lisbon, Portugal")).toBeNull();
+    expect(classifyAttraction("Bristol Club", "Nightclub in Lisbon, Portugal (1918–1928)")).toBeNull();
+  });
+
+  it("recognises funiculars, statues and greenhouses", () => {
+    expect(classifyAttraction("Ascensor da Glória", "Funicular railway in Lisbon, Portugal")).toBe("landmark");
+    expect(classifyAttraction("Statue of António Vieira", "Public sculpture in Lisbon")).toBe("history");
+    expect(classifyAttraction("Estufa Fria", "Greenhouse in Lisbon, Portugal")).toBe("nature");
   });
 
   it("skips places that are not sights", () => {

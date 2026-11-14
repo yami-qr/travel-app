@@ -79,18 +79,16 @@ export type AttractionCategory =
   | "nature"
   | "culture"
   | "landmark"
-  | "neighbourhood"
-  | "other";
+  | "neighbourhood";
 
 export const attractionCategoryLabels: Record<AttractionCategory, string> = {
   history: "History",
   religious: "Religious sites",
   museum: "Museums",
   nature: "Parks & nature",
-  culture: "Arts & nightlife",
+  culture: "Arts & stages",
   landmark: "Squares & streets",
   neighbourhood: "Neighbourhoods",
-  other: "Other",
 };
 
 export interface Attraction {
@@ -106,23 +104,38 @@ export interface Attraction {
   pageUrl: string;
 }
 
-/** Results that are not places to visit: admin areas, transport, events, organisations. */
+/**
+ * Results that mention a sight word but are not places to visit: admin areas,
+ * stations, events, places that no longer exist. Checked before the categories.
+ */
 const NOT_A_SIGHT =
-  /^(former )?(civil parish|parish|municipality|district|metro station|railway station|train station|station|hospital|school|university|company|bank|embassy|hotel|roman catholic (arch)?diocese|(arch)?diocese)|battle|siege|earthquake|massacre|election|timeline of/i;
+  /^(former )?(civil parish|parish|municipality|district|metro station|railway station|train station|station|hospital|school|university|roman catholic (arch)?diocese|(arch)?diocese)|defunct|demolished|\(\d{4}[–-]\d{4}\)|battle|siege|earthquake|massacre|accident|derailment|election|timeline of/i;
+
+/** Organisations whose names can contain sight words, e.g. "Institute for Nature Conservation and Forests". */
+const ORGANISATION = /\b(institute|institution|agency|foundation|federation|association|ministry|court)\b/i;
 
 const CATEGORY_RULES: [AttractionCategory, RegExp][] = [
   ["museum", /museum|gallery/i],
   ["religious", /church|cathedral|basilica|monastery|convent|temple|mosque|synagogue|shrine|chapel|abbey|igreja|catholic building/i],
-  ["history", /castle|palace|fort\b|fortress|tower|monument|historic|ruin|memorial|column|prison|pantheon|archaeological|aqueduct|city wall|gate\b/i],
-  ["nature", /park|garden|beach|mountain|lake|river|island|forest|viewpoint|miradouro|botanical|zoo|aquarium|waterfall|nature reserve/i],
-  ["culture", /theatre|theater|opera|concert|cinema|stadium|arena|nightclub|music venue|cultural centre/i],
-  ["landmark", /square|plaza|praça|street|avenue|boulevard|market|bridge|promenade|fountain/i],
+  ["history", /castle|palace|fort\b|fortress|tower|monument|historic|ruin|memorial|column|statue|sculpture|pantheon|archaeological|aqueduct|city wall|gate\b/i],
+  ["nature", /park\b|parque|garden|greenhouse|beach|mountain|lake\b|river|island|forest|viewpoint|miradouro|botanical|zoo\b|aquarium|waterfall|nature reserve/i],
+  ["culture", /theatre|theater|teatro|opera|concert hall|cinema|stadium|arena|music venue|cultural cent(er|re)/i],
+  ["landmark", /square|plaza|praça|roundabout|street|avenue|boulevard|market|bridge|promenade|fountain|funicular|cable car/i],
   ["neighbourhood", /neighbou?rhood|quarter\b|old town/i],
 ];
 
-/** Puts an article into a category from its short description, falling back to its title. Null means skip it. */
+/**
+ * Puts an article into a sight category from its short description, falling back
+ * to its title. Returns null for anything that is not a sight, including
+ * organisations, courts, schools and the city itself, which match no category.
+ */
 export function classifyAttraction(title: string, description = ""): AttractionCategory | null {
-  if (NOT_A_SIGHT.test(description) || /^timeline of|^siege of|^battle of/i.test(title)) {
+  if (
+    NOT_A_SIGHT.test(description) ||
+    ORGANISATION.test(title) ||
+    ORGANISATION.test(description) ||
+    /^timeline of|^siege of|^battle of/i.test(title)
+  ) {
     return null;
   }
   for (const [category, pattern] of CATEGORY_RULES) {
@@ -131,7 +144,7 @@ export function classifyAttraction(title: string, description = ""): AttractionC
   for (const [category, pattern] of CATEGORY_RULES) {
     if (pattern.test(title)) return category;
   }
-  return "other";
+  return null;
 }
 
 /** Great-circle distance between two points, in kilometres. */
@@ -170,7 +183,7 @@ export async function getAttractions(
     generator: "geosearch",
     ggscoord: `${latitude}|${longitude}`,
     ggsradius: radiusMetres,
-    ggslimit: 50,
+    ggslimit: 100,
     prop: "pageimages|description|coordinates",
     piprop: "thumbnail",
     pithumbsize: 400,
