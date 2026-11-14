@@ -6,10 +6,13 @@ import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 import { FavouritesProvider } from "./context/FavouritesContext";
 import { sampleTrips } from "./data/sampleTrips";
+import DestinationPage from "./pages/DestinationPage";
+import ExplorePage from "./pages/ExplorePage";
 import HomePage from "./pages/HomePage";
 import TripDetailPage from "./pages/TripDetailPage";
 import { loadTrips, saveTrips } from "./services/storage";
 import type { Trip } from "./types/trip";
+import { addActivity } from "./utils/itinerary";
 
 interface TripRouteProps {
   trips: Trip[];
@@ -80,6 +83,17 @@ export default function App() {
     setTrips((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
   }
 
+  /** Adds a sight from a destination page to one day of a trip, as a free activity. */
+  function handleAddSightToTrip(tripId: string, date: string, title: string) {
+    setTrips((prev) =>
+      prev.map((t) =>
+        t.id === tripId
+          ? addActivity(t, date, { title, time: "", cost: "0", category: "activity" })
+          : t,
+      ),
+    );
+  }
+
   return (
     <FavouritesProvider>
       <SiteHeader onNewTrip={() => openForm()} />
@@ -87,6 +101,17 @@ export default function App() {
       <main id="main">
         <Routes>
           <Route path="/" element={<HomePage trips={trips} onPlanTrip={openForm} />} />
+          <Route path="/explore" element={<ExplorePage />} />
+          <Route
+            path="/destinations/:placeId"
+            element={
+              <DestinationPage
+                trips={trips}
+                onPlanTrip={openForm}
+                onAddToTrip={handleAddSightToTrip}
+              />
+            }
+          />
           <Route
             path="/trips/:tripId"
             element={<TripRoute trips={trips} onUpdate={handleUpdateTrip} />}
