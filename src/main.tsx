@@ -5,6 +5,7 @@ import App from "./App";
 import "./styles/base.css";
 import "./styles/site.css";
 import "./styles/trips.css";
+import "./styles/detail.css";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {

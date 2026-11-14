@@ -13,7 +13,9 @@ export type IconName =
   | "pin"
   | "check"
   | "arrow"
-  | "clock";
+  | "clock"
+  | "food"
+  | "bed";
 
 const paths: Record<IconName, ReactNode> = {
   calendar: (
@@ -65,6 +67,13 @@ const paths: Record<IconName, ReactNode> = {
       <path d="M12 7v5l3 2" />
     </>
   ),
+  food: (
+    <>
+      <path d="M4 2v7a3 3 0 0 0 6 0V2M7 2v20" />
+      <path d="M20 15V2a5 5 0 0 0-4 5v6a2 2 0 0 0 2 2h2Zm0 0v7" />
+    </>
+  ),
+  bed: <path d="M2 5v15M2 9h17a3 3 0 0 1 3 3v8M2 17h20M7 9v8" />,
 };
 
 interface IconProps {
