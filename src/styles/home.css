@@ -756,3 +756,135 @@
     transform: translate(-5%, -46%) rotate(10deg);
   }
 }
+
+/* ---------- Call to action ---------- */
+.cta-section {
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 0;
+  background: var(--mint-50);
+  text-align: center;
+}
+
+.cta-ribbon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cta-card {
+  position: relative;
+  display: grid;
+  gap: 1.2rem;
+  justify-items: center;
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: 3.25rem 2rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.cta-card .section-title .accent {
+  display: inline;
+}
+
+.cta-card > p {
+  max-width: 28rem;
+  color: var(--muted);
+}
+
+.cta-card .cta-note {
+  font-size: 0.82rem;
+}
+
+.btn-large {
+  padding: 0.95rem 1.75rem;
+  font-size: 1.05rem;
+}
+
+/* ---------- Tech stack (purple band) ---------- */
+.tech-section {
+  padding: 5.5rem 0;
+  background: var(--purple-900);
+  color: #fff;
+}
+
+.tech-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.tech-art {
+  justify-self: center;
+  width: min(100%, 26rem);
+  aspect-ratio: 1.05;
+  overflow: hidden;
+  border-radius: 62% 38% 46% 54% / 55% 44% 56% 45%;
+  box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.06);
+  transform: rotate(-4deg);
+}
+
+.tech-art svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tech-copy {
+  display: grid;
+  gap: 1.1rem;
+  justify-items: start;
+}
+
+.tech-section .eyebrow {
+  color: #c9b8ff;
+}
+
+.tech-copy > p:not(.eyebrow) {
+  color: #d8cef7;
+}
+
+.check-list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.check-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.check {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--green-500);
+  color: var(--teal-950);
+}
+
+@media (max-width: 900px) {
+  .cta-section,
+  .tech-section {
+    padding: 3.5rem 0;
+  }
+
+  .tech-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .tech-art {
+    width: min(100%, 18rem);
+  }
+}
