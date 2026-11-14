@@ -11,16 +11,28 @@ export default function SiteFooter() {
             <Logo />
           </Link>
           <p>
-            A trip planner built with React and TypeScript. Your trips never leave this browser.
+            Find a place, save it, and plan the days. Your trips and saved places stay in this
+            browser.
           </p>
         </div>
 
         <nav aria-label="Footer">
+          <h2 className="footer-heading">Plan</h2>
+          <Link to="/explore">Explore destinations</Link>
           <Link to="/#trips">My trips</Link>
-          <Link to="/#destinations">Destinations</Link>
-          <Link to="/#features">Features</Link>
-          <a href={REPO_URL}>Source on GitHub</a>
+          <Link to="/#saved">Saved places</Link>
         </nav>
+
+        <div>
+          <h2 className="footer-heading">Data</h2>
+          <p className="footer-credits">
+            Places and weather from <a href="https://open-meteo.com/">Open-Meteo</a>. Descriptions,
+            photos and sights from <a href="https://www.wikipedia.org/">Wikipedia</a>.
+          </p>
+          <p className="footer-credits">
+            <a href={REPO_URL}>Source code on GitHub</a>
+          </p>
+        </div>
       </div>
     </footer>
   );

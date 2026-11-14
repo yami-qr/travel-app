@@ -4,6 +4,7 @@ import Modal from "./components/Modal";
 import NewTripForm, { NEW_TRIP_TITLE_ID } from "./components/NewTripForm";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
+import { FavouritesProvider } from "./context/FavouritesContext";
 import { sampleTrips } from "./data/sampleTrips";
 import HomePage from "./pages/HomePage";
 import TripDetailPage from "./pages/TripDetailPage";
@@ -80,7 +81,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <FavouritesProvider>
       <SiteHeader onNewTrip={() => openForm()} />
 
       <main id="main">
@@ -104,6 +105,6 @@ export default function App() {
           />
         </Modal>
       )}
-    </>
+    </FavouritesProvider>
   );
 }

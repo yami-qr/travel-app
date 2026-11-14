@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { REPO_URL } from "../data/site";
+import { Link, NavLink } from "react-router-dom";
+import { useFavourites } from "../context/FavouritesContext";
 import Logo from "./Logo";
 
 interface SiteHeaderProps {
@@ -7,18 +7,13 @@ interface SiteHeaderProps {
 }
 
 export default function SiteHeader({ onNewTrip }: SiteHeaderProps) {
+  const { favourites } = useFavourites();
+
   return (
     <>
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-
-      <div className="announce">
-        <p>
-          Free to use, no account needed. Your trips are saved in this browser.{" "}
-          <Link to="/#features">See what it does</Link>
-        </p>
-      </div>
 
       <header className="site-header">
         <div className="container site-header-inner">
@@ -27,19 +22,21 @@ export default function SiteHeader({ onNewTrip }: SiteHeaderProps) {
           </Link>
 
           <nav className="site-nav" aria-label="Main">
+            <NavLink to="/explore">Explore</NavLink>
             <Link to="/#trips">My trips</Link>
-            <Link to="/#destinations">Destinations</Link>
-            <Link to="/#features">Features</Link>
+            <Link to="/#saved">
+              Saved
+              {favourites.length > 0 && (
+                <span className="nav-count" aria-label={`${favourites.length} saved`}>
+                  {favourites.length}
+                </span>
+              )}
+            </Link>
           </nav>
 
-          <div className="header-actions">
-            <a className="btn header-code" href={REPO_URL}>
-              View code
-            </a>
-            <button className="btn btn-primary" type="button" onClick={onNewTrip}>
-              New trip
-            </button>
-          </div>
+          <button className="btn btn-primary" type="button" onClick={onNewTrip}>
+            New trip
+          </button>
         </div>
       </header>
     </>
