@@ -1,3 +1,4 @@
+import Hero from "../components/Hero";
 import TripsSection from "../components/TripsSection";
 import type { Trip } from "../types/trip";
 
@@ -10,6 +11,7 @@ interface HomePageProps {
 export default function HomePage({ trips, onPlanTrip }: HomePageProps) {
   return (
     <>
+      <Hero featuredTrip={trips[0]} onPlanTrip={onPlanTrip} />
       <TripsSection trips={trips} onPlanTrip={() => onPlanTrip()} />
     </>
   );

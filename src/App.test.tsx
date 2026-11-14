@@ -105,8 +105,9 @@ describe("App", () => {
     window.localStorage.setItem(TRIPS_STORAGE_KEY, JSON.stringify([]));
     renderApp();
 
-    expect(screen.queryByText("Lisbon weekend")).toBeNull();
-    expect(screen.getByText("No trips yet. Create one to get started.")).toBeTruthy();
+    // The hero's phone preview may still show a sample; the trip list must not.
+    expect(tripsSection().queryByText("Lisbon weekend")).toBeNull();
+    expect(tripsSection().getByText("No trips yet. Create one to get started.")).toBeTruthy();
   });
 
   it("opens a trip's detail page from its card", () => {
@@ -115,6 +116,15 @@ describe("App", () => {
 
     expect(screen.getByRole("heading", { level: 1, name: "Lisbon weekend" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "← All trips" })).toBeTruthy();
+  });
+
+  it("opens the form with the destination typed into the hero", () => {
+    renderApp();
+    fireEvent.change(screen.getByLabelText("Where to?"), { target: { value: "Rome, Italy" } });
+    fireEvent.click(screen.getByRole("button", { name: "Plan a trip" }));
+
+    const dialog = within(screen.getByRole("dialog", { name: "Plan a new trip" }));
+    expect((dialog.getByLabelText("Destination") as HTMLInputElement).value).toBe("Rome, Italy");
   });
 
   it("shows a not-found page for an unknown trip id", () => {
