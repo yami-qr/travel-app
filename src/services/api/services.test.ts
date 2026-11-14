@@ -273,6 +273,9 @@ describe("attractions", () => {
       pageUrl: "https://en.wikipedia.org/?curid=1",
     });
     expect(calledUrl().searchParams.get("origin")).toBe("*");
+    // Without these, Wikipedia only returns coordinates for the first 10 pages.
+    expect(calledUrl().searchParams.get("colimit")).toBe("max");
+    expect(calledUrl().searchParams.get("pilimit")).toBe("max");
   });
 
   it("handles a response with no pages", async () => {

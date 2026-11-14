@@ -185,6 +185,10 @@ export async function getAttractions(
     ggsradius: radiusMetres,
     ggslimit: 100,
     prop: "pageimages|description|coordinates",
+    // Both default to 10 results per request; without "max", most pages come back
+    // with no coordinates or image and would be dropped.
+    colimit: "max",
+    pilimit: "max",
     piprop: "thumbnail",
     pithumbsize: 400,
     format: "json",
