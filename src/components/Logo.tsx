@@ -2,19 +2,32 @@ interface LogoMarkProps {
   size?: number;
 }
 
-/** The Travel Planner mark: a route winding from a start point. Decorative, so hidden from screen readers. */
-export function LogoMark({ size = 30 }: LogoMarkProps) {
+/** A paper plane leaving a dashed trail inside a postage stamp. Decorative. */
+export function LogoMark({ size = 34 }: LogoMarkProps) {
   return (
-    <svg viewBox="0 0 32 32" width={size} height={size} aria-hidden="true">
-      <rect width="32" height="32" rx="9" fill="#1dc98c" />
-      <path
-        d="M9 23c0-6 14-3 14-9a4 4 0 0 0-8 0"
+    <svg viewBox="0 0 40 40" width={size} height={size} aria-hidden="true" focusable="false">
+      <rect x="2" y="2" width="36" height="36" rx="6" fill="#c4412a" />
+      <rect
+        x="5"
+        y="5"
+        width="30"
+        height="30"
+        rx="4"
         fill="none"
-        stroke="#072e33"
-        strokeWidth="3"
-        strokeLinecap="round"
+        stroke="#fffdf7"
+        strokeWidth="1.5"
+        strokeDasharray="2 2.5"
       />
-      <circle cx="9" cy="23" r="2.5" fill="#072e33" />
+      <path
+        d="M10 27c4-1 6-4 9-5"
+        fill="none"
+        stroke="#fffdf7"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeDasharray="1 3"
+      />
+      <path d="M31 11 14 18l6 2.5 2.5 6.5L31 11Z" fill="#fffdf7" />
+      <path d="M20 20.5 31 11" stroke="#c4412a" strokeWidth="1.2" />
     </svg>
   );
 }
@@ -24,8 +37,8 @@ export default function Logo() {
   return (
     <>
       <LogoMark />
-      <span>
-        Travel Planner
+      <span className="logo-word">
+        Travel <em>Planner</em>
       </span>
     </>
   );
