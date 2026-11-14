@@ -60,7 +60,7 @@ export default function Hero({ featuredTrip, onPlanTrip }: HeroProps) {
           </h1>
 
           <p className="hero-lede">
-            Itinera turns a destination, your dates and a budget into a day-by-day plan. Add
+            Travel Planner turns a destination, your dates and a budget into a day-by-day plan. Add
             activities, watch your spending and tick off your packing list, all in one place.
           </p>
 

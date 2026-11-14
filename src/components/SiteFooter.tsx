@@ -7,7 +7,7 @@ export default function SiteFooter() {
     <footer className="site-footer">
       <div className="container site-footer-inner">
         <div className="site-footer-about">
-          <Link to="/" className="logo" aria-label="Itinera home">
+          <Link to="/" className="logo" aria-label="Travel Planner home">
             <Logo />
           </Link>
           <p>

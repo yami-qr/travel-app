@@ -22,7 +22,7 @@ export default function SiteHeader({ onNewTrip }: SiteHeaderProps) {
 
       <header className="site-header">
         <div className="container site-header-inner">
-          <Link to="/" className="logo" aria-label="Itinera home">
+          <Link to="/" className="logo" aria-label="Travel Planner home">
             <Logo />
           </Link>
 

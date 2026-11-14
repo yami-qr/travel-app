@@ -27,7 +27,7 @@ export default function TechSection() {
             The tech stack behind your travel plans
           </h2>
           <p>
-            Itinera is a portfolio project. It runs entirely in your browser, with no server and no
+            Travel Planner is a portfolio project. It runs entirely in your browser, with no server and no
             account, and the pictures are drawn in code.
           </p>
           <ul className="check-list">

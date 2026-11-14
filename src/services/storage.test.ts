@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { loadTrips, saveTrips, TRIPS_STORAGE_KEY } from "./storage";
+import { LEGACY_TRIPS_STORAGE_KEY, loadTrips, saveTrips, TRIPS_STORAGE_KEY } from "./storage";
 import type { Trip } from "../types/trip";
 
 /** In-memory stand-in for window.localStorage, so tests don't depend on jsdom state. */
@@ -98,5 +98,18 @@ describe("saveTrips and loadTrips", () => {
   it("does not throw when storage is blocked", () => {
     expect(() => saveTrips([sampleTrip], brokenStorage)).not.toThrow();
     expect(loadTrips(brokenStorage)).toBeNull();
+  });
+});
+
+describe("legacy storage key", () => {
+  it("loads trips saved under the old key", () => {
+    storage.setItem(LEGACY_TRIPS_STORAGE_KEY, JSON.stringify([sampleTrip]));
+    expect(loadTrips(storage)).toEqual([sampleTrip]);
+  });
+
+  it("prefers the new key when both exist", () => {
+    storage.setItem(LEGACY_TRIPS_STORAGE_KEY, JSON.stringify([sampleTrip]));
+    storage.setItem(TRIPS_STORAGE_KEY, JSON.stringify([]));
+    expect(loadTrips(storage)).toEqual([]);
   });
 });

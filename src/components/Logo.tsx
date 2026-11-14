@@ -2,7 +2,7 @@ interface LogoMarkProps {
   size?: number;
 }
 
-/** The Itinera mark: a route winding from a start point. Decorative, so hidden from screen readers. */
+/** The Travel Planner mark: a route winding from a start point. Decorative, so hidden from screen readers. */
 export function LogoMark({ size = 30 }: LogoMarkProps) {
   return (
     <svg viewBox="0 0 32 32" width={size} height={size} aria-hidden="true">
@@ -25,7 +25,7 @@ export default function Logo() {
     <>
       <LogoMark />
       <span>
-        itinera<span className="logo-dot">.</span>
+        Travel Planner
       </span>
     </>
   );

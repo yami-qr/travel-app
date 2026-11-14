@@ -1,6 +1,9 @@
 import type { Trip } from "../types/trip";
 
-export const TRIPS_STORAGE_KEY = "itinera.trips";
+export const TRIPS_STORAGE_KEY = "travel-planner.trips";
+
+/** Key used before the project was renamed. Read once so existing trips are not lost. */
+export const LEGACY_TRIPS_STORAGE_KEY = "itinera.trips";
 
 /**
  * Minimal shape check for stored data. It guards against hand-edited or
@@ -22,7 +25,7 @@ function isTrip(value: unknown): value is Trip {
  */
 export function loadTrips(storage: Storage = window.localStorage): Trip[] | null {
   try {
-    const raw = storage.getItem(TRIPS_STORAGE_KEY);
+    const raw = storage.getItem(TRIPS_STORAGE_KEY) ?? storage.getItem(LEGACY_TRIPS_STORAGE_KEY);
     if (raw === null) return null;
 
     const parsed: unknown = JSON.parse(raw);

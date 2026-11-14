@@ -1,4 +1,4 @@
-# Itinera
+# Travel Planner
 
 A trip planner for building day-by-day itineraries, tracking budgets, and keeping a packing checklist.
 
