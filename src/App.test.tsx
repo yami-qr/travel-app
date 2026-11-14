@@ -1,7 +1,8 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
+import { clearApiCache } from "./services/api/http";
 import { TRIPS_STORAGE_KEY } from "./services/storage";
 
 function renderApp(path = "/") {
@@ -17,11 +18,20 @@ function tripsSection() {
   return within(screen.getByRole("region", { name: /boarding passes/ }));
 }
 
+// The app talks to real APIs; tests answer every request with an empty result instead.
+const fetchMock = vi.fn<typeof fetch>(async () => new Response(JSON.stringify({}), { status: 200 }));
+
 beforeEach(() => {
   window.localStorage.clear();
+  clearApiCache();
+  fetchMock.mockClear();
+  vi.stubGlobal("fetch", fetchMock);
 });
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
 
 function fillTripForm(name: string) {
   fireEvent.change(screen.getByLabelText("Trip name"), { target: { value: name } });
@@ -116,6 +126,30 @@ describe("App", () => {
 
     expect(screen.getByRole("heading", { level: 1, name: "Lisbon weekend" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "← All trips" })).toBeTruthy();
+  });
+
+  it("searching from the home page opens Explore with the query", async () => {
+    renderApp();
+    fireEvent.change(screen.getByLabelText("Search for a destination"), { target: { value: "Porto" } });
+    fireEvent.click(screen.getByRole("button", { name: "Explore" }));
+
+    expect(screen.getByRole("heading", { level: 1, name: /Where do you want to go/ })).toBeTruthy();
+    expect((screen.getByLabelText("Search for a city or town") as HTMLInputElement).value).toBe("Porto");
+    expect(await screen.findByText(/No places match “Porto”/)).toBeTruthy();
+    expect(String(fetchMock.mock.calls[0]?.[0])).toContain("geocoding-api.open-meteo.com");
+  });
+
+  it("saving a destination adds it to the wish list", () => {
+    renderApp();
+    const stamps = within(screen.getByRole("region", { name: /sheet of stamps/ }));
+    fireEvent.click(stamps.getByRole("button", { name: "Save Kyoto to favourites" }));
+
+    const wishList = within(screen.getByRole("region", { name: /wish list/ }));
+    expect(wishList.getByRole("link", { name: "Kyoto" }).getAttribute("href")).toBe("/destinations/1857910");
+
+    fireEvent.click(wishList.getByRole("button", { name: "Plan a trip to Kyoto, Japan" }));
+    const dialog = within(screen.getByRole("dialog", { name: "Plan a new trip" }));
+    expect((dialog.getByLabelText("Destination") as HTMLInputElement).value).toBe("Kyoto, Japan");
   });
 
   it("shows a not-found page for an unknown trip id", () => {
