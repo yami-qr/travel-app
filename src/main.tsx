@@ -7,6 +7,7 @@ import "./styles/site.css";
 import "./styles/home.css";
 import "./styles/trips.css";
 import "./styles/detail.css";
+import "./styles/explore.css";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
