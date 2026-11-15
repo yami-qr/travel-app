@@ -6,6 +6,21 @@ A responsive travel planning web app for discovering destinations and building p
 
 **Live demo:** https://itinera-olive.vercel.app
 
+## Screenshots
+
+![Home page with the destination search and postcard hero](docs/screenshots/home.png)
+
+| Explore | Trip |
+| --- | --- |
+| ![Search results for "porto" with type, country and sort filters](docs/screenshots/explore.png) | ![Lisbon trip with budget, spending by category, day plan and packing list](docs/screenshots/trip.png) |
+
+<details>
+<summary>Destination page: description, 7-day weather and nearby sights</summary>
+
+![Lisbon destination page with Wikipedia summary, weather forecast and 40 nearby sights](docs/screenshots/destination.png)
+
+</details>
+
 ## Features
 
 - **Discover destinations:** search any city or town. Each destination page brings together a description and photo, a 7-day forecast, and the sights nearby, all from live APIs.
