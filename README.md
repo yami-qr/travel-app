@@ -1,5 +1,7 @@
 # Travel Planner
 
+[![CI](https://github.com/yami-qr/travel-app/actions/workflows/ci.yml/badge.svg)](https://github.com/yami-qr/travel-app/actions/workflows/ci.yml)
+
 A responsive travel planning web app for discovering destinations and building personalised, multi-day itineraries. Built with React and TypeScript.
 
 **Live demo:** https://itinera-olive.vercel.app
@@ -77,6 +79,10 @@ src/
   types/        Trip, Day, Activity and PackingItem types
   utils/        Budget, itinerary, dates, filtering and statistics (pure, unit-tested)
 ```
+
+## Continuous integration
+
+Every push and pull request to `main` runs the test suite and a type-checked production build on GitHub Actions (`.github/workflows/ci.yml`).
 
 ## Deployment
 
