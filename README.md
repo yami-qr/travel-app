@@ -4,7 +4,7 @@
 
 A responsive travel planning web app for discovering destinations and building personalised, multi-day itineraries. Built with React and TypeScript.
 
-**Live demo:** https://itinera-olive.vercel.app
+**Live demo:** https://travel-planner-yami.vercel.app
 
 ## Screenshots
 
