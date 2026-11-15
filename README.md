@@ -15,15 +15,16 @@ A responsive travel planning web app for discovering destinations and building p
 | ![Search results for "porto" with type, country and sort filters](docs/screenshots/explore.png) | ![Lisbon trip with budget, spending by category, day plan and packing list](docs/screenshots/trip.png) |
 
 <details>
-<summary>Destination page: description, 7-day weather and nearby sights</summary>
+<summary>Destination page: description, 7-day weather, map and nearby sights</summary>
 
-![Lisbon destination page with Wikipedia summary, weather forecast and 40 nearby sights](docs/screenshots/destination.png)
+![Lisbon destination page with Wikipedia summary, weather forecast, a map of 40 nearby sights and the sight cards](docs/screenshots/destination.png)
 
 </details>
 
 ## Features
 
 - **Discover destinations:** search any city or town. Each destination page brings together a description and photo, a 7-day forecast, and the sights nearby, all from live APIs.
+- **Map of sights:** nearby sights are pinned on an OpenStreetMap map, coloured by category. The pins follow the active filters.
 - **Search and filtering:** filter search results by type (cities, capitals) and country, and sort them by relevance, population or name. Filter sights by category or by name.
 - **Favourites:** save destinations with the heart button. Saved places appear in your wish list and are kept between visits.
 - **Multi-day itineraries:** create a trip and get one day per date. Add sights straight from a destination page to any day, or add your own activities with a time, cost and category. Reorder or remove them.
@@ -31,7 +32,7 @@ A responsive travel planning web app for discovering destinations and building p
 
 ## Data sources
 
-All three APIs are free and need no key, so the app runs entirely in the browser.
+Every source is free and needs no key, so the app runs entirely in the browser.
 
 | Data | API |
 | --- | --- |
@@ -39,6 +40,7 @@ All three APIs are free and need no key, so the app runs entirely in the browser
 | 7-day weather forecast | [Open-Meteo Forecast](https://open-meteo.com/en/docs) |
 | Description and photo | [Wikipedia REST page summary](https://en.wikipedia.org/api/rest_v1/) |
 | Nearby sights | [Wikipedia geosearch](https://www.mediawiki.org/wiki/API:Geosearch) |
+| Map tiles | [OpenStreetMap](https://www.openstreetmap.org/copyright), drawn with [Leaflet](https://leafletjs.com/) |
 
 ## How the API layer works
 
@@ -46,16 +48,18 @@ All three APIs are free and need no key, so the app runs entirely in the browser
 - **Loading, error and retry states** come from a small `useApi` hook. When the input changes, it cancels the old request and ignores any late answer, so results never arrive out of order.
 - **Search waits for typing to pause** (debounced), so there is no request per keystroke. The query is kept in the URL, so results can be shared and survive a refresh.
 - **Sections fail independently.** If the weather service is down, the description and sights still load, and only the weather shows a "Try again" button.
+- **The map loads only when needed.** Leaflet is split into its own bundle with `React.lazy`, so the home and Explore pages never download it.
 - **Wikipedia results are cleaned up.** Nearby pages include stations, courts, schools and historical events, so each one is put into a sight category from its description, and anything that is not a sight is dropped.
 
 ## Design
 
-The look is a travel journal: warm paper, postcards with postmarks, destinations as perforated postage stamps, and trips as boarding passes. All illustrations are drawn in SVG by the `Scenery` component, so the app ships no image files of its own. The layout adapts from phone to desktop, forms and dialogs work with a keyboard, and animations turn off for people who prefer reduced motion.
+The look is a travel journal: warm paper, postcards with postmarks, destinations as perforated postage stamps, and trips as boarding passes. All illustrations are drawn in SVG by the `Scenery` component, so the app ships no image files of its own. The layout adapts from phone through tablet to desktop, forms and dialogs work with a keyboard, and animations turn off for people who prefer reduced motion.
 
 ## Tech stack
 
 - React 18 and TypeScript, built with Vite
 - React Router for client-side routing
+- Leaflet and React Leaflet for the sights map
 - Vitest and React Testing Library, with API calls mocked in tests
 - `localStorage` for trips and favourites, through services that cope with blocked or corrupt storage
 - Plain CSS with custom properties for colour and spacing
