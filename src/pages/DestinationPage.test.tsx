@@ -24,6 +24,15 @@ vi.mock("../services/api/weather", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../services/api/weather")>()),
   getForecast: api.getForecast,
 }));
+// Leaflet needs a real browser to draw, so tests use a stand-in that lists what it was given.
+vi.mock("../components/SightsMap", () => ({
+  default: ({ centre, sights }: { centre: { name: string }; sights: { title: string }[] }) => (
+    <div role="region" aria-label={`Map of sights near ${centre.name}`}>
+      Map pins: {sights.map((s) => s.title).join(", ")}
+    </div>
+  ),
+}));
+
 vi.mock("../services/api/wikipedia", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../services/api/wikipedia")>()),
   getDestinationSummary: api.getDestinationSummary,
@@ -155,6 +164,27 @@ describe("DestinationPage", () => {
     fireEvent.change(screen.getByLabelText("Filter sights by name"), { target: { value: "cathedral" } });
     expect(screen.getByText("1 of 3 sights")).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Lisbon Cathedral" })).toBeTruthy();
+  });
+
+  it("pins the sights on a map that follows the filters", async () => {
+    renderPage();
+
+    const map = await screen.findByRole("region", { name: "Map of sights near Lisbon" });
+    expect(map.textContent).toBe("Map pins: São Jorge Castle, Lisbon Cathedral, Rossio");
+
+    fireEvent.click(screen.getByRole("button", { name: /History/ }));
+    expect(screen.getByRole("region", { name: "Map of sights near Lisbon" }).textContent).toBe(
+      "Map pins: São Jorge Castle",
+    );
+  });
+
+  it("hides the map when no sights match the filters", async () => {
+    renderPage();
+    await screen.findByText("3 sights");
+
+    fireEvent.change(screen.getByLabelText("Filter sights by name"), { target: { value: "zzz" } });
+
+    expect(screen.queryByRole("region", { name: /Map of sights/ })).toBeNull();
   });
 
   it("adds a sight to a chosen trip and day", async () => {

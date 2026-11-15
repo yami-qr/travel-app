@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { useApi } from "../hooks/useApi";
 import {
   attractionCategoryLabels,
@@ -8,7 +8,12 @@ import {
 import type { Trip } from "../types/trip";
 import AddToTrip from "./AddToTrip";
 
+// The map library is large, so it only downloads when a destination page shows sights.
+const SightsMap = lazy(() => import("./SightsMap"));
+
 interface AttractionsSectionProps {
+  /** Destination name, used to label the map. */
+  placeName: string;
   latitude: number;
   longitude: number;
   trips: Trip[];
@@ -21,6 +26,7 @@ const PAGE_SIZE = 12;
 
 /** Sights near a destination from Wikipedia, with category chips, a text filter and "add to trip". */
 export default function AttractionsSection({
+  placeName,
   latitude,
   longitude,
   trips,
@@ -57,6 +63,12 @@ export default function AttractionsSection({
   }, [attractions, category, text]);
 
   const visible = filtered.slice(0, limit);
+
+  // A stable object, so the map only re-fits when the filters actually change.
+  const centre = useMemo(
+    () => ({ latitude, longitude, name: placeName }),
+    [latitude, longitude, placeName],
+  );
 
   return (
     <section className="attractions" aria-labelledby="sights-heading">
@@ -141,6 +153,12 @@ export default function AttractionsSection({
               ? `${attractions.length} sights`
               : `${filtered.length} of ${attractions.length} sights`}
           </p>
+
+          {filtered.length > 0 && (
+            <Suspense fallback={<div className="skeleton map-skeleton" aria-label="Loading the map" />}>
+              <SightsMap centre={centre} sights={filtered} />
+            </Suspense>
+          )}
 
           {filtered.length === 0 ? (
             <div className="notice">No sights match. Try another category or name.</div>

@@ -562,3 +562,80 @@
     max-width: 28rem;
   }
 }
+
+/* ---------- Sights map ---------- */
+.sights-map {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.sights-map-canvas {
+  height: 24rem;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: 5px 5px 0 var(--ocean);
+  /* Leaflet sets z-indexes up to 1000; keep the map under the sticky header and dialogs. */
+  isolation: isolate;
+  z-index: 0;
+}
+
+/* Warm the map tiles slightly, so they sit with the paper colours. */
+.sights-map .leaflet-tile-pane {
+  filter: sepia(0.25) saturate(0.85);
+}
+
+.sights-map .leaflet-container {
+  font-family: var(--font);
+}
+
+.sights-map .leaflet-popup-content {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0.8rem 1rem;
+  font-size: 0.85rem;
+}
+
+.map-popup-title {
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.map-popup-meta {
+  color: var(--muted);
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.map-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.map-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--card);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.map-skeleton {
+  height: 24rem;
+}
+
+@media (max-width: 600px) {
+  .sights-map-canvas,
+  .map-skeleton {
+    height: 18rem;
+  }
+}

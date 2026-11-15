@@ -164,6 +164,7 @@ export default function DestinationPage({ trips, onPlanTrip, onAddToTrip }: Dest
         <Overview place={p} />
         <WeatherStrip latitude={p.latitude} longitude={p.longitude} />
         <AttractionsSection
+          placeName={p.name}
           latitude={p.latitude}
           longitude={p.longitude}
           trips={trips}
