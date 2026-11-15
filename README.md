@@ -1,6 +1,6 @@
 # Travel Planner
 
-[![CI](https://github.com/yami-qr/travel-app/actions/workflows/ci.yml/badge.svg)](https://github.com/yami-qr/travel-app/actions/workflows/ci.yml)
+[![CI](https://github.com/yami-qr/travel-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/yami-qr/travel-planner/actions/workflows/ci.yml)
 
 A responsive travel planning web app for discovering destinations and building personalised, multi-day itineraries. Built with React and TypeScript.
 
